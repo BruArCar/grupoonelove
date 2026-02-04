@@ -1,128 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Grupo One Love</title>
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grupo One Love</title>
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#111;
+      color:#fff;
+    }
 
-nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 220px;
-    height: 100%;
-    background: #000;
-    padding: 20px;
-}
+    nav{
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 240px;
+      height: 100%;
+      background:#000;
+      padding: 20px;
+      box-sizing:border-box;
+      overflow:auto;
+    }
 
-nav h2 {
-    text-align: center;
-}
+    nav h2{
+      margin:0 0 16px 0;
+      text-align:center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight:600;
+    }
 
-nav a {
-    display: block;
-    color: #ccc;
-    text-decoration: none;
-    margin: 10px 0;
-}
+    nav a{
+      display:block;
+      color:#ccc;
+      text-decoration:none;
+      padding:10px 10px;
+      margin: 6px 0;
+      border-radius:10px;
+    }
 
-nav a:hover {
-    color: #00ffff;
-}
+    nav a:hover{
+      color:#00ffff;
+      background: rgba(0,255,255,0.08);
+    }
 
-section {
-    margin-left: 240px;
-    padding: 60px;
-    min-height: 100vh;
-}
+    .main{
+      margin-left: 240px;
+    }
 
-h1, h2 {
-    color: #00ffff;
-}
+    section{
+      padding: 60px 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
 
-img {
-    max-width: 250px;
-    border-radius: 10px;
-}
-.gallery img {
-    margin: 10px;
-}
-</style>
+    h1,h2{
+      color:#00ffff;
+      margin-top:0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight:600;
+    }
+
+    /* Cabecera con imagen */
+    .hero{
+      position: relative;
+      min-height: 420px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding: 90px 30px;
+      box-sizing:border-box;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.25)),
+        url("portada.jpg") center/cover no-repeat;
+      filter:saturate(1.05);
+    }
+
+    .hero > div{
+      position:relative;
+      max-width: 850px;
+    }
+
+    .hero p{
+      color: rgba(255,255,255,0.8);
+      line-height:1.7;
+      margin: 10px auto 0;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns: 380px 1fr;
+      gap: 22px;
+      align-items:start;
+    }
+
+    .two-col img{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card{
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .card p{
+      color: rgba(255,255,255,0.75);
+      line-height:1.6;
+      margin: 10px 0 0;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .gallery img{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .quote{
+      max-width: 900px;
+      margin: 18px auto 0;
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      line-height:1.7;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .quote footer{
+      margin-top: 10px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .links a{
+      color:#00ffff;
+      text-decoration:none;
+    }
+    .links a:hover{ text-decoration:underline; }
+
+    @media (max-width: 980px){
+      nav{ position:static; width:auto; height:auto; }
+      .main{ margin-left:0; }
+      .two-col{ grid-template-columns: 1fr; }
+      .cards{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: 1fr; }
+      .hero{ min-height: 320px; padding: 70px 20px; }
+    }
+  </style>
 </head>
 
 <body>
 
-<nav>
-<h2>Grupo One Love</h2>
-<a href="#inicio">Inicio</a>
-<a href="#sobre">Sobre nosotros</a>
-<a href="#servicios">Servicios</a>
-<a href="#trabajo">Nuestro Trabajo</a>
-<a href="#galeria">Fotogalería</a>
-<a href="#testimonios">Testimonios</a>
-<a href="#equipo">Equipo</a>
-<a href="#contacto">Contacto</a>
-</nav>
+  <nav>
+    <h2>Grupo One Love</h2>
+    <a href="#inicio">Inicio</a>
+    <a href="#sobre">Sobre nosotros</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#trabajo">Nuestro Trabajo</a>
+    <a href="#galeria">Fotogalería</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 
-<section id="inicio">
-<h1>Música en vivo para tus eventos</h1>
-<p>Bienvenidos a Grupo One Love. Somos un grupo musical especializado en música en directo para todo tipo de eventos.</p>
-</section>
+  <div class="main">
 
-<section id="sobre">
-<h2>Sobre nosotros</h2>
-<p>Somos un grupo musical con repertorio variado: pop, rock, verbena y música para todas las edades.</p>
-</section>
+    <!-- INICIO -->
+    <section id="inicio" class="hero">
+      <div>
+        <h1>Música en vivo para tus eventos</h1>
+        <p>
+          Bienvenidos a Grupo One Love. Somos un grupo musical especializado en brindar entretenimiento de alta calidad para tus eventos.
+          Con una amplia variedad de géneros y una pasión por la música en vivo, nos encargamos de hacer de cada ocasión un momento inolvidable.
+          ¡Únete a la fiesta con Grupo One Love!
+        </p>
+      </div>
+    </section>
 
-<section id="servicios">
-<h2>Servicios</h2>
-<ul>
-<li>Música en vivo</li>
-<li>Animación musical</li>
-<li>Producción de eventos</li>
-</ul>
-</section>
+    <!-- SOBRE -->
+    <section id="sobre">
+      <div class="two-col">
+        <!-- Si quieres otra foto aquí, luego la subimos -->
+        <img src="portada.jpg" alt="Grupo One Love">
+        <div>
+          <h2>Música en vivo de calidad</h2>
+          <p>
+            Somos Grupo One Love, una banda musical que se dedica a brindar una experiencia única y llena de energía en tus eventos.
+            Con una amplia variedad de géneros y una pasión por la música en vivo, nos encargamos de hacer de cada ocasión un momento inolvidable.
+            ¡Únete a la fiesta con Grupo One Love!
+          </p>
 
-<section id="trabajo">
-<h2>Nuestro Trabajo</h2>
-<p>Disfruta de algunos momentos de nuestras actuaciones.</p>
-<img src="https://via.placeholder.com/250">
-<img src="https://via.placeholder.com/250">
-<img src="https://via.placeholder.com/250">
-</section>
+          <h2>Música en vivo de calidad.</h2>
+          <p>
+            En Grupo One Love nos especializamos en ofrecer música en vivo ideal para todo tipo de eventos,
+            desde bodas y fiestas privadas hasta conciertos y festivales. Con nuestro amplio repertorio de géneros musicales y experiencia
+            en el escenario, aseguramos una experiencia única y entretenida para todos los asistentes.
+            ¡Déjanos ser parte de tu próxima celebración y haz que sea inolvidable!
+          </p>
+        </div>
+      </div>
+    </section>
 
-<section id="galeria">
-<h2>Fotogalería</h2>
-<div class="gallery">
-<img src="https://via.placeholder.com/250">
-<img src="https://via.placeholder.com/250">
-<img src="https://via.placeholder.com/250">
-<img src="https://via.placeholder.com/250">
-</div>
-</section>
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <h2>Servicios</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Música en vivo</h3>
+          <p>Actuación en directo para fiestas, verbenas, bodas y eventos privados.</p>
+        </div>
+        <div class="card">
+          <h3>Animación musical</h3>
+          <p>Interacción, energía y ritmo para que la pista no se pare.</p>
+        </div>
+        <div class="card">
+          <h3>Producción de eventos</h3>
+          <p>Asesoramiento y coordinación del show según las necesidades del evento.</p>
+        </div>
+      </div>
+    </section>
 
-<section id="testimonios">
-<h2>Testimonios</h2>
-<p>"Contratamos a Grupo One Love y fue un éxito total. Repetiremos seguro."</p>
-<p><b>Beatriz Cuesta</b></p>
-</section>
+    <!-- NUESTRO TRABAJO -->
+    <section id="trabajo">
+      <h2>Nuestro Trabajo</h2>
+      <p>Vive la música en vivo con nosotros. Aquí podrás ver una muestra de actuaciones y momentos especiales.</p>
 
-<section id="equipo">
-<h2>Equipo</h2>
-<p>Conoce a los miembros de nuestro grupo.</p>
-</section>
+      <div class="gallery">
+        <!-- De momento repetimos portada.jpg. Luego subimos 3 fotos reales y cambiamos los nombres -->
+        <img src="portada.jpg" alt="Actuación 1">
+        <img src="portada.jpg" alt="Actuación 2">
+        <img src="portada.jpg" alt="Actuación 3">
+      </div>
+    </section>
 
-<section id="contacto">
-<h2>Contacto</h2>
-<p>Email: contacto@grupoonelove.es</p>
-<p>Teléfono: 634 35 29 05</p>
-</section>
+    <!-- FOTOGALERÍA -->
+    <section id="galeria">
+      <h2>Fotogalería</h2>
+      <p>Instantes capturados en imágenes.</p>
+
+      <div class="gallery">
+        <img src="portada.jpg" alt="Galería 1">
+        <img src="portada.jpg" alt="Galería 2">
+        <img src="portada.jpg" alt="Galería 3">
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section id="testimonios">
+      <h2>Opiniones de clientes</h2>
+      <blockquote class="quote">
+        “Contratamos a Grupo One Love para animar nuestro evento y fue un éxito total.
+        La energía y el talento de los músicos nos dejó encantados y todos los asistentes bailaron sin parar.”
+        <footer>— Beatriz Cuesta</footer>
+      </blockquote>
+    </section>
+
+    <!-- EQUIPO -->
+    <section id="equipo">
+      <h2>Equipo</h2>
+      <p>Conoce a los miembros del grupo (aquí luego ponemos fotos y nombres si quieres).</p>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p class="links">
+        WhatsApp: <a href="https://wa.me/34634352905" target="_blank" rel="noopener">Escribir por WhatsApp</a><br>
+        Instagram: <a href="https://www.instagram.com/grupoonelove1/" target="_blank" rel="noopener">grupoonelove1</a><br>
+        TikTok: <a href="https://www.tiktok.com/@grupoonelove" target="_blank" rel="noopener">@grupoonelove</a><br>
+        YouTube: <a href="https://www.youtube.com/@GrupoOneLove" target="_blank" rel="noopener">@GrupoOneLove</a>
+      </p>
+    </section>
+
+  </div>
 
 </body>
 </html>

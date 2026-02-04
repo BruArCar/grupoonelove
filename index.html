@@ -1,306 +1,417 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Grupo One Love</title>
+
   <style>
+    :root{
+      --bg:#0b0b0b;
+      --panel:#101010;
+      --text:#eaeaea;
+      --muted:#cfcfcf;
+      --accent:#00e6e6;
+      --line:rgba(255,255,255,.08);
+      --card:#141414;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+    }
+
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: Arial, sans-serif;
-      background:#111;
-      color:#fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
     }
 
-    nav{
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 240px;
-      height: 100%;
-      background:#000;
-      padding: 20px;
-      box-sizing:border-box;
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Layout */
+    .wrap{
+      display:flex;
+      min-height:100vh;
+    }
+    .side{
+      width:320px;
+      background:linear-gradient(180deg, #0f0f0f, #0b0b0b);
+      border-right:1px solid var(--line);
+      padding:32px 22px;
+      position:sticky;
+      top:0;
+      height:100vh;
       overflow:auto;
     }
-
-    nav h2{
-      margin:0 0 16px 0;
-      text-align:center;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight:600;
+    .brand{
+      font-weight:800;
+      font-size:44px;
+      line-height:1.0;
+      color:var(--accent);
+      margin:0 0 28px 0;
+      letter-spacing:.2px;
     }
-
-    nav a{
+    .nav a{
       display:block;
-      color:#ccc;
-      text-decoration:none;
       padding:10px 10px;
-      margin: 6px 0;
       border-radius:10px;
+      color:var(--text);
+      font-size:28px;
+      line-height:1.1;
+      margin:8px 0;
+      opacity:.95;
     }
-
-    nav a:hover{
-      color:#00ffff;
-      background: rgba(0,255,255,0.08);
+    .nav a:hover{background:rgba(255,255,255,.06)}
+    .nav a.active{
+      color:var(--accent);
+      background:rgba(0,230,230,.08);
+      border:1px solid rgba(0,230,230,.12);
     }
 
     .main{
-      margin-left: 240px;
+      flex:1;
+      min-width:0;
     }
 
-    section{
-      padding: 60px 30px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    h1,h2{
-      color:#00ffff;
-      margin-top:0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight:600;
-    }
-
-    /* Cabecera con imagen */
+    /* Hero with background image */
     .hero{
-      position: relative;
-      min-height: 420px;
+      min-height:420px;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding: 90px 30px;
-      box-sizing:border-box;
-    }
-
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.25)),
-        url("portada.jpg") center/cover no-repeat;
-      filter:saturate(1.05);
-    }
-
-    .hero > div{
       position:relative;
-      max-width: 850px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85)),
+        url("portada.jpg");
+      background-size:cover;
+      background-position:center;
+      border-bottom:1px solid var(--line);
+      padding:70px 24px;
     }
-
+    .hero h1{
+      margin:0;
+      font-size:64px;
+      color:var(--accent);
+      letter-spacing:.2px;
+      text-shadow:0 10px 30px rgba(0,0,0,.6);
+    }
     .hero p{
-      color: rgba(255,255,255,0.8);
-      line-height:1.7;
-      margin: 10px auto 0;
+      max-width:950px;
+      margin:18px auto 0 auto;
+      font-size:30px;
+      color:var(--text);
+      opacity:.95;
     }
 
-    .two-col{
+    /* Sections */
+    section{
+      padding:60px 28px;
+      border-bottom:1px solid var(--line);
+    }
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+    }
+    h2{
+      margin:0 0 18px 0;
+      font-size:44px;
+      letter-spacing:.2px;
+    }
+    .lead{
+      font-size:22px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0 0 24px 0;
+    }
+
+    /* Two-col block like “Inicio” screenshot */
+    .two{
       display:grid;
-      grid-template-columns: 380px 1fr;
-      gap: 22px;
+      grid-template-columns: 420px 1fr;
+      gap:26px;
       align-items:start;
     }
-
-    .two-col img{
-      width:100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
-      background: rgba(255,255,255,0.02);
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-
     .card{
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 14px;
-      padding: 16px;
-      background: rgba(255,255,255,0.02);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .card .pad{
+      padding:18px 18px 16px 18px;
     }
 
-    .card p{
-      color: rgba(255,255,255,0.75);
-      line-height:1.6;
-      margin: 10px 0 0;
+    /* Gallery grid */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+    .thumb{
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#0f0f0f;
+      box-shadow:var(--shadow);
+    }
+    .thumb img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
     }
 
-    .gallery{
+    /* Testimonial */
+    .quote{
+      background:#0f0f0f;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .quote p{
+      margin:0;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    .quote b{
+      display:block;
+      margin-top:10px;
+      color:var(--text);
+    }
+
+    /* Socials */
+    .social{
+      background:#ffffff;
+      color:#111;
+      border-radius:18px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .social h2{color:#111}
+    .social .lead{color:#333}
+    .social-grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
+      gap:18px;
+      margin-top:18px;
     }
-
-    .gallery img{
-      width:100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-      background: rgba(255,255,255,0.02);
+    .social-item{
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.08);
+      background:rgba(0,0,0,.02);
     }
+    .social-item b{display:block; margin-bottom:6px}
+    .social-item a{color:#0b6b6b}
 
-    .quote{
-      max-width: 900px;
-      margin: 18px auto 0;
-      padding: 18px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.02);
-      line-height:1.7;
-      color: rgba(255,255,255,0.78);
+    /* Responsive */
+    @media (max-width: 1100px){
+      .two{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2, 1fr)}
     }
-
-    .quote footer{
-      margin-top: 10px;
-      color: rgba(255,255,255,0.6);
-    }
-
-    .links a{
-      color:#00ffff;
-      text-decoration:none;
-    }
-    .links a:hover{ text-decoration:underline; }
-
-    @media (max-width: 980px){
-      nav{ position:static; width:auto; height:auto; }
-      .main{ margin-left:0; }
-      .two-col{ grid-template-columns: 1fr; }
-      .cards{ grid-template-columns: 1fr; }
-      .gallery{ grid-template-columns: 1fr; }
-      .hero{ min-height: 320px; padding: 70px 20px; }
+    @media (max-width: 860px){
+      .wrap{flex-direction:column}
+      .side{
+        width:auto;
+        height:auto;
+        position:relative;
+      }
+      .brand{font-size:36px}
+      .nav a{font-size:22px}
+      .hero h1{font-size:44px}
+      .hero p{font-size:22px}
+      h2{font-size:34px}
+      .grid{grid-template-columns:1fr}
+      .social-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <aside class="side">
+      <div class="brand">Grupo One Love</div>
 
-  <nav>
-    <h2>Grupo One Love</h2>
-    <a href="#inicio">Inicio</a>
-    <a href="#sobre">Sobre nosotros</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#trabajo">Nuestro Trabajo</a>
-    <a href="#galeria">Fotogalería</a>
-    <a href="#testimonios">Testimonios</a>
-    <a href="#equipo">Equipo</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
+      <nav class="nav">
+        <a class="active" href="#inicio">Inicio</a>
+        <a href="#sobre">Sobre nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#trabajo">Nuestro Trabajo</a>
+        <a href="#galeria">Fotogalería</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </aside>
 
-  <div class="main">
-
-    <!-- INICIO -->
-    <section id="inicio" class="hero">
-      <div>
-        <h1>Música en vivo para tus eventos</h1>
-        <p>
-          Bienvenidos a Grupo One Love. Somos un grupo musical especializado en brindar entretenimiento de alta calidad para tus eventos.
-          Con una amplia variedad de géneros y una pasión por la música en vivo, nos encargamos de hacer de cada ocasión un momento inolvidable.
-          ¡Únete a la fiesta con Grupo One Love!
-        </p>
-      </div>
-    </section>
-
-    <!-- SOBRE -->
-    <section id="sobre">
-      <div class="two-col">
-        <!-- Si quieres otra foto aquí, luego la subimos -->
-        <img src="portada.jpg" alt="Grupo One Love">
+    <main class="main">
+      <header class="hero" id="inicio">
         <div>
-          <h2>Música en vivo de calidad</h2>
-          <p>
-            Somos Grupo One Love, una banda musical que se dedica a brindar una experiencia única y llena de energía en tus eventos.
-            Con una amplia variedad de géneros y una pasión por la música en vivo, nos encargamos de hacer de cada ocasión un momento inolvidable.
-            ¡Únete a la fiesta con Grupo One Love!
+          <h1>Música en vivo para tus eventos</h1>
+          <p>Bienvenidos a Grupo One Love. Somos un grupo musical especializado en música en directo para todo tipo de eventos.</p>
+        </div>
+      </header>
+
+      <section>
+        <div class="container two">
+          <div class="card">
+            <img src="portada.jpg" alt="Grupo One Love">
+          </div>
+
+          <div>
+            <h2>Música en vivo de calidad</h2>
+            <p class="lead">
+              Somos Grupo One Love, una banda musical que se dedica a brindar una experiencia única y llena de energía en tus eventos.
+              Con una amplia variedad de géneros y una pasión por la música en vivo, nos encargamos de hacer de cada ocasión un momento inolvidable.
+            </p>
+            <p class="lead">
+              <a href="#sobre">Sobre nosotros →</a>
+            </p>
+
+            <div class="lead">
+              <div>• Música en vivo</div>
+              <div>• Animación musical</div>
+              <div>• Producción de eventos</div>
+            </div>
+
+            <p class="lead">
+              <a href="#servicios">Todos los servicios →</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="sobre">
+        <div class="container">
+          <h2>Sobre nosotros</h2>
+          <p class="lead">
+            Somos un grupo musical con repertorio variado: pop, rock, verbena y música para todas las edades.
+            Podemos actuar en formato dúo, trío, cuarteto o grupo completo.
+          </p>
+        </div>
+      </section>
+
+      <section id="servicios">
+        <div class="container">
+          <h2>Servicios</h2>
+          <p class="lead">
+            Música en directo para fiestas de pueblo, bodas, eventos privados, empresas y celebraciones.
+            Adaptamos el show al público y al horario del evento.
+          </p>
+        </div>
+      </section>
+
+      <section id="trabajo">
+        <div class="container">
+          <h2>Nuestro Trabajo</h2>
+          <p class="lead">
+            Vive la música en vivo. Con amplia experiencia en escenarios, garantizamos un ambiente inolvidable y lleno de energía en cada presentación.
+          </p>
+        </div>
+      </section>
+
+      <section id="galeria">
+        <div class="container">
+          <h2>Fotogalería</h2>
+          <p class="lead">
+            Instantes capturados en imágenes: una muestra de los momentos que hemos vivido en nuestros eventos.
           </p>
 
-          <h2>Música en vivo de calidad.</h2>
-          <p>
-            En Grupo One Love nos especializamos en ofrecer música en vivo ideal para todo tipo de eventos,
-            desde bodas y fiestas privadas hasta conciertos y festivales. Con nuestro amplio repertorio de géneros musicales y experiencia
-            en el escenario, aseguramos una experiencia única y entretenida para todos los asistentes.
-            ¡Déjanos ser parte de tu próxima celebración y haz que sea inolvidable!
+          <div class="grid">
+            <div class="thumb"><img src="portada.jpg" alt="Foto 1"></div>
+            <div class="thumb"><img src="portada.jpg" alt="Foto 2"></div>
+            <div class="thumb"><img src="portada.jpg" alt="Foto 3"></div>
+          </div>
+
+          <p class="lead" style="margin-top:18px;">
+            (Luego sustituimos estas 3 por tus fotos reales, una por una)
           </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SERVICIOS -->
-    <section id="servicios">
-      <h2>Servicios</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Música en vivo</h3>
-          <p>Actuación en directo para fiestas, verbenas, bodas y eventos privados.</p>
+      <section id="testimonios">
+        <div class="container">
+          <h2>Opiniones de Clientes</h2>
+          <div class="quote">
+            <p>
+              Contratamos a Grupo One Love para animar nuestro evento y fue un éxito total.
+              La energía y el talento de los músicos nos dejó encantados y todos los asistentes bailaron sin parar.
+              Sin duda, los volveremos a contratar.
+            </p>
+            <b>— Beatriz Cuesta</b>
+            <div style="margin-top:10px;"><a href="#contacto">Testimonios →</a></div>
+          </div>
         </div>
-        <div class="card">
-          <h3>Animación musical</h3>
-          <p>Interacción, energía y ritmo para que la pista no se pare.</p>
+      </section>
+
+      <section id="equipo">
+        <div class="container">
+          <h2>Equipo</h2>
+          <p class="lead">
+            Aquí pondremos la info del grupo (nombres, instrumentos, formatos: dúo / trío / cuarteto).
+          </p>
         </div>
-        <div class="card">
-          <h3>Producción de eventos</h3>
-          <p>Asesoramiento y coordinación del show según las necesidades del evento.</p>
+      </section>
+
+      <section id="contacto">
+        <div class="container social">
+          <h2>Síguenos en todas nuestras redes sociales</h2>
+          <p class="lead">Te dejamos enlaces directos a Instagram, TikTok y YouTube.</p>
+
+          <div class="social-grid">
+            <div class="social-item">
+              <b>Instagram</b>
+              <div><a href="https://www.instagram.com/grupoonelove1/" target="_blank" rel="noopener">instagram.com/grupoonelove1</a></div>
+            </div>
+
+            <div class="social-item">
+              <b>TikTok</b>
+              <div><a href="https://www.tiktok.com/@grupoonelove" target="_blank" rel="noopener">tiktok.com/@grupoonelove</a></div>
+            </div>
+
+            <div class="social-item">
+              <b>YouTube</b>
+              <div><a href="https://www.youtube.com/@GrupoOneLove" target="_blank" rel="noopener">youtube.com/@GrupoOneLove</a></div>
+            </div>
+          </div>
+
+          <p class="lead" style="margin-top:18px;">
+            WhatsApp: <a href="https://wa.me/34634352905" target="_blank" rel="noopener">+34 634 35 29 05</a>
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- NUESTRO TRABAJO -->
-    <section id="trabajo">
-      <h2>Nuestro Trabajo</h2>
-      <p>Vive la música en vivo con nosotros. Aquí podrás ver una muestra de actuaciones y momentos especiales.</p>
-
-      <div class="gallery">
-        <!-- De momento repetimos portada.jpg. Luego subimos 3 fotos reales y cambiamos los nombres -->
-        <img src="portada.jpg" alt="Actuación 1">
-        <img src="portada.jpg" alt="Actuación 2">
-        <img src="portada.jpg" alt="Actuación 3">
-      </div>
-    </section>
-
-    <!-- FOTOGALERÍA -->
-    <section id="galeria">
-      <h2>Fotogalería</h2>
-      <p>Instantes capturados en imágenes.</p>
-
-      <div class="gallery">
-        <img src="portada.jpg" alt="Galería 1">
-        <img src="portada.jpg" alt="Galería 2">
-        <img src="portada.jpg" alt="Galería 3">
-      </div>
-    </section>
-
-    <!-- TESTIMONIOS -->
-    <section id="testimonios">
-      <h2>Opiniones de clientes</h2>
-      <blockquote class="quote">
-        “Contratamos a Grupo One Love para animar nuestro evento y fue un éxito total.
-        La energía y el talento de los músicos nos dejó encantados y todos los asistentes bailaron sin parar.”
-        <footer>— Beatriz Cuesta</footer>
-      </blockquote>
-    </section>
-
-    <!-- EQUIPO -->
-    <section id="equipo">
-      <h2>Equipo</h2>
-      <p>Conoce a los miembros del grupo (aquí luego ponemos fotos y nombres si quieres).</p>
-    </section>
-
-    <!-- CONTACTO -->
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <p class="links">
-        WhatsApp: <a href="https://wa.me/34634352905" target="_blank" rel="noopener">Escribir por WhatsApp</a><br>
-        Instagram: <a href="https://www.instagram.com/grupoonelove1/" target="_blank" rel="noopener">grupoonelove1</a><br>
-        TikTok: <a href="https://www.tiktok.com/@grupoonelove" target="_blank" rel="noopener">@grupoonelove</a><br>
-        YouTube: <a href="https://www.youtube.com/@GrupoOneLove" target="_blank" rel="noopener">@GrupoOneLove</a>
-      </p>
-    </section>
-
+    </main>
   </div>
 
+  <script>
+    // resalta el menú según dónde estás
+    const links = [...document.querySelectorAll(".nav a")];
+    const sections = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+    };
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) setActive(e.target.id);
+      });
+    }, {root:null, threshold:0.25});
+
+    sections.forEach(s => io.observe(s));
+  </script>
 </body>
 </html>
